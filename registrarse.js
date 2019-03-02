@@ -25,7 +25,7 @@ router.post('/registrarse', async (req,res) =>{
     }
 
   if(errors.length == 0){
-    const newUser = new User({nombre,apellido,email,password,timeStamp});
+    const newUser = new User({nombre,apellido,email,password,rol});
     newUser.password = password;
     await newUser.save();
     res.json({
