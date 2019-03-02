@@ -10,3 +10,5 @@ const userSchema = new Schema({
     timeStamp: {type: String, required: true},
     rol: {type: String, required: true}
 });
+
+module.exports = mongoose.model('users', userSchema);
