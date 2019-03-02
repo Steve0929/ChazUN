@@ -9,15 +9,28 @@ router.get('/', (req,res) =>{
   }
 )
 
+router.get('/usuarios', async (req,res)=>{
+  const usuarios = await User.find();
+  res.json(usuarios);
+})
+
+
 router.get('/ingresar', async (req,res)=>{
+
+
   res.json({
     status: 'Ingresar a la cuenta'
    });
 
 })
 
+
+
+
+
 router.post('/registrarse', async (req,res) =>{
   const {nombre, apellido, email, password, rol} = req.body;
+  console.log(req.body);
   const errors = [];
   if(nombre.length <=0){
     errors.push({status: 'Error. Inserta un nombre'});
@@ -39,15 +52,16 @@ router.post('/registrarse', async (req,res) =>{
     }
 
   if(errors.length == 0){
-    const newUser = new User({nombre,apellido,email,password,rol});
+    let timeStamp = Date.now();
+    const newUser = new User({nombre,apellido,email,password,rol,timeStamp});
     newUser.password = password;
     await newUser.save();
     res.json({
-      status: 'Te has registrado exitosamente!'
+      status: 'Te has registrado exitosamente!', registrado: 'ok'
      });
   }
   else{
-    res.json(errors[0]);
+    res.json({registrado: 'not'});
    }
 
 })
