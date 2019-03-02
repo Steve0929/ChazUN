@@ -4,14 +4,16 @@ const bcrypt = require('bcryptjs');
 
 const chazaSchema = new Schema({
     nombre: {type: String, required: true},
-    administrador: {type: String, required: false},
+    administrador: {type: String, required: true},
     celular: {type: String, required: false},
-    latitud: {type: String, required: true},
-    longitud: {type: String, required: true},
+    latitud: {type: Number, required: true},
+    longitud: {type: Number, required: true},
     descripcion: {type: String, required: true},
-    productos: {type: String, required: true},
+    productos: [{producto: String, precio: Number}],
     calificaciones: [{calificacion: Number, calificador: String}],
-    comentarios: [{comentario: String, autor: String}]
+    comentarios: [{comentario: String, autor: String}],
+    horario: {type: String, required: true},
+
 });
 
 module.exports = mongoose.model('chazas', chazaSchema);

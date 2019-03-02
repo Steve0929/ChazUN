@@ -1,6 +1,7 @@
 const express = require ('express');
 const router = express.Router();
 const User = require ('./usuarios.js');
+const Chaza = require ('./chazas.js');
 
 router.get('/', (req,res) =>{
   res.json({
@@ -14,18 +15,60 @@ router.get('/usuarios', async (req,res)=>{
   res.json(usuarios);
 })
 
+router.get('/chazas', async (req,res)=>{
+  const chazas = await Chaza.find();
+  res.json(chazas);
+})
 
-router.get('/ingresar', async (req,res)=>{
+router.post('/ingresar', async (req,res)=>{
+  const {email, password} = req.body;
+  var usuario = await User.findOne({email: email},
+       function(err,obj) {
+         console.log(obj);
+          });
 
+  if(usuario.password == password){
+    res.json({
+      status: 'Ingresar a la cuenta', usuario: usuario, validado: 'ok'
+     });
+  }
+  else{
+    res.json({
+      status: 'Ingresar a la cuenta falla', usuario: usuario, validado: 'not', error: 'Contraseña o usuario inválidos'
+     });
+  }
 
-  res.json({
-    status: 'Ingresar a la cuenta'
-   });
 
 })
 
+router.post('/nuevonegocio', async (req,res) =>{
+  const {nombre, descripcion, administrador, celular, latitud, longitud} = req.body;
+  const errors = [];
+
+  if(nombre.length <=0){
+    errors.push({status: 'Error. Inserta un nombre'});
+  }
+  if(descripcion.length <=0){
+    errors.push({status: 'Error. Inserta una descripcion'});
+  }
+  if(celular.length <=0){
+    errors.push({status: 'Error. Inserta un celular'});
+  }
+
+  if(errors.length == 0){
+    const newNegocio = new Chaza({nombre,descripcion,administrador,celular,latitud,longitud});
+    await newNegocio.save();
+    res.json({
+      status: 'Negocio registrado exitosamente!', registrado: 'ok'
+     });
+   }
+   
+  else{
+    res.json({registrado: 'not'});
+   }
 
 
+})
 
 
 router.post('/registrarse', async (req,res) =>{
