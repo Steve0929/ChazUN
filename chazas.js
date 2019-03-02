@@ -11,7 +11,7 @@ const chazaSchema = new Schema({
     descripcion: {type: String, required: true},
     productos: {type: String, required: true},
     calificaciones: [{calificacion: Number, calificador: String}],
-    comentarios: [{comentario: Number, autor: String}]
+    comentarios: [{comentario: String, autor: String}]
 });
 
 module.exports = mongoose.model('chazas', chazaSchema);
