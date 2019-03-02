@@ -1,6 +1,13 @@
 const express = require ('express');
 const router = express.Router();
-const User = require ('/usuarios.js');
+const User = require ('./usuarios.js');
+
+router.get('/', (req,res) =>{
+  res.json({
+    status: 'Servidor de ChazUN online'
+   });
+  }
+)
 
 router.post('/registrarse', async (req,res) =>{
   const {nombre, apellido, email, password, rol} = req.body;
