@@ -23,7 +23,8 @@ app.use(function(req,res,next){
 })
 
 
-app.use(require('./registrarse.js'));
+app.use(require('./rutas.js'));
+app.use(require('./chazas.js'));
 
 //2eb3c691-ae90-4d4a-9d7b-b3fe7ddc2a49
 //Conectarse a la base de datos
