@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="img/favicon.png" type="image/png">
+        <title>Nexus SaaS</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="vendors/linericon/style.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+        <link rel="stylesheet" href="vendors/lightbox/simpleLightbox.css">
+        <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
+        <link rel="stylesheet" href="vendors/animate-css/animate.css">
+        <!-- main css -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+    </head>
+    <body>
+
+        <!--================Header Menu Area =================-->
+        <header class="header_area">
+            <div class="main_menu">
+              <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="container box_1620">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <a class="navbar-brand logo_h" href="index.html"><img src="logo.png" alt="" width='200em' height='90em'></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+
+          </div>
+              </nav>
+            </div>
+        </header>
+
+
+  <section class="contact_area p_120">
+      <div class="container">
+              <div class="col-lg-12">
+                  <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+                      <div class="col-md-6 text-center">
+                          <div class="form-group">
+                              <input type="text" class="form-control" id="nombreval" name="name" placeholder="Nombre">
+                          </div>
+                          <div class="form-group">
+                              <input type="text" class="form-control" id="apellidoval" name="appelido" placeholder="Appelido">
+                          </div>
+                          <div class="form-group">
+                              <input type="email" class="form-control" id="emailval" name="email" placeholder="Email">
+                          </div>
+                          <div class="form-group">
+                              <input type="password" class="form-control" id="contraseñaval" name="subject" placeholder="Contraseña">
+                          </div>
+                          <div class="form-group">
+                          <select  id="rolval">
+                            <option value='cliente'>Cliente</option>
+                            <option value='vendedor'>Vendedor</option>
+                            <option value='admin'>Administrador de un negocio</option>
+                          </select>
+                          </div>
+                      </div>
+
+                      <div class="col-md-12 text-center">
+                          <button  onclick="registrarNuevo()"  type="button" value="submit" class="btn submit_btn">Registrarme</button>
+                      </div>
+                  </form>
+              </div>
+          </div>
+  </section>
+
+  <script>
+
+
+    function registrarNuevo(){
+    var nombre = $('#nombreval').val();
+    var apellido =$('#apellidoval').val();
+    var email =$('#emailval').val();
+    var contraseña =$('#contraseñaval').val();
+    var rol =   $('#rolval').val();
+
+    console.log(rol);
+    console.log(nombre);
+
+    var xhr;
+    xhr = $.ajax({
+
+        url: "http://localhost:3001/registrarse",
+        type: "POST",
+        async: true, // set to false if you don't mind the page pausing while waiting for response
+        cache: false,
+        dataType: "json",
+        data: JSON.stringify({nombre: nombre, email: email, password: contraseña,rol:rol, apellido: apellido}),
+        contentType: "application/json; charset=utf-8",
+        success: function(data) {
+            // handle your successful response here
+        },
+        error: function(xhr, ajaxOptions, thrownError) {
+            // handle your fail response here
+        }
+    });
+     xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+    return xhr;
+
+  }
+  </script>
+        <!--================Contact Success and Error message Area =================-->
+        <div id="success" class="modal modal-message fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <h2>Perfecto</h2>
+                        <p>Te has registrado correctamente</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modals error -->
+
+        <div id="error" class="modal modal-message fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <h2>Lo sentimos !</h2>
+                        <p>Algo salio mal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--================End Contact Success and Error message Area =================-->
+
+
+
+
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/stellar.js"></script>
+        <script src="vendors/lightbox/simpleLightbox.min.js"></script>
+        <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+        <script src="vendors/isotope/imagesloaded.pkgd.min.js"></script>
+        <script src="vendors/isotope/isotope-min.js"></script>
+        <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
+        <script src="js/jquery.ajaxchimp.min.js"></script>
+        <script src="js/mail-script.js"></script>
+        <script src="vendors/counter-up/jquery.waypoints.min.js"></script>
+        <script src="vendors/counter-up/jquery.counterup.min.js"></script>
+        <!-- contact js -->
+        <script src="js/jquery.form.js"></script>
+        <script src="js/jquery.validate.min.js"></script>
+
+        <!--gmaps Js-->
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+        <script src="js/gmaps.min.js"></script>
+        <script src="js/theme.js"></script>
+
+    </body>
+</html>
+
+<script>
+
+  </script>
