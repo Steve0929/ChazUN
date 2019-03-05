@@ -18,10 +18,11 @@
         <!-- main css -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     </head>
     <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #4dabff ; height: 6em">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #4dabff ; height: 6em">
         <a class="navbar-brand" href="#">ChazUN - Administradores</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -34,7 +35,7 @@
           	<li class="nav-item"  style='list-style-type: none; padding-right:1em'><a href="#" class="tickets_btn">Explorar</a></li>
           </span>
           <span class="navbar-text">
-            <li class="nav-item" style='list-style-type: none;'><a href="#" class="tickets_btn">Mis chazas</a></li>
+            <li class="nav-item" style='list-style-type: none;'><a href="#cha" class="tickets_btn">Mis chazas</a></li>
           </span>
 
           <li style='list-style-type: none;' class="nav-item submenu dropdown">
@@ -54,16 +55,17 @@
         background-image: -webkit-linear-gradient(0deg, white 0%,  white  100%);'>
 
         <section class="price_area p_120">
-          <div class="container">
+          <div  class="container">
             <div class="main_title">
               <h2>Registra tu chaza</h2>
               <p>Podras añadir tu negocio a ChazUN para que los usuarios puedan acceder a información como horarios, precios y productos. Los usuarios podrán calificar y comentar tu negocio</p>
                 <a onclick="iniciarRegistro()" class="main_btn center-block" style='margin-top:2em' href="#">Crear negocio</a>
             </div>
-            <hr />
+            <hr id='cha'/>
 
-            <div class="price_inner row"  style='margin-top:5em;'>
-              <div class="col-lg-4">
+            <div  id='chazasofuser' class="price_inner row"  style='margin-top:5em;'>
+
+              <!-- <div class="col-lg-4">
                 <div class="price_item">
                   <div class="price_head">
                     <h4>Real Basic</h4>
@@ -71,18 +73,22 @@
                   <div class="price_body">
                     <ul class="list">
                       <li><a href="#">2.5 GB Space</a></li>
-                      <li><a href="#">Secure Online Transfer</a></li>
+                      <li><a href="#">Horario:</a></li>
                       <li><a href="#">Unlimited Styles</a></li>
                       <li><a href="#">Customer Service</a></li>
                     </ul>
                   </div>
                   <div class="price_footer">
                     <h3><span class="dlr">$</span> 39 <span class="month">Per <br />Month</span></h3>
-                    <a class="main_btn" href="#">Get Started</a>
+                    <a class="main_btn" href="#">Administrar productos</a>
                   </div>
                 </div>
-              </div>
+              </div> -->
+
             </div>
+
+
+
           </div>
         </section>
 
@@ -91,22 +97,9 @@
         <!--================End Footer Area =================-->
 
 
-        <!-- Optional JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/popper.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/stellar.js"></script>
-        <script src="vendors/lightbox/simpleLightbox.min.js"></script>
-        <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
-        <script src="js/jquery.ajaxchimp.min.js"></script>
-        <script src="vendors/counter-up/jquery.waypoints.min.js"></script>
-        <script src="vendors/counter-up/jquery.counterup.min.js"></script>
-        <!--gmaps Js-->
-        <script src="js/theme.js"></script>
-
-        <div id="ingModal" class="modal modal-message fade" role="dialog">
-            <div class="modal-dialog">
+        <div id="ingModal" class="modal modal-message fade" role="dialog" style='height: 40em;'>
+          <!-- height: 50em;max-width: 50em;overflow-x: hidden;overflow-y: scroll;top:25em;-->
+            <div class="modal-dialog" style='max-width: 45em;padding-top: 40em;'>
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -115,6 +108,17 @@
                         <h2>Registar un negocio</h2>
                           <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
                               <div class="col-md-12 text-center">
+                                  <div class="form-group" style='padding-bottom:3em'>
+                                    <select  id="cate" >
+                                    <option value='Alimentos'>Alimentos</option>
+                                    <option value='Papeleria'>Papeleria</option>
+                                    <option value='Elementos electrónicos'>Elementos electrónicos</option>
+                                    <option value='Bebidas'>Bebidas</option>
+                                    <option value='Accesorios'>Accesorios</option>
+                                    <option value='Material audiovisual'>Material audiovisual</option>
+                                    <option value='Otros'>Otros</option>
+                                    </select>
+                                  </div>
                                   <div class="form-group">
                                       <input type="nombre" class="form-control" id="nombreval" name="nombre" placeholder="Nombre del negocio">
                                   </div>
@@ -128,17 +132,15 @@
                                       <input type="celular" class="form-control" id="celularval" name="celular" placeholder="Numero de contacto">
                                   </div>
                               </div>
-
-                              <div class="col-md-12 text-center">
-                                  <button  onclick="crearNegocio()"  type="button" value="submit" class="btn submit_btn">Registrar negocio</button>
-                              </div>
                           </form>
+                         <div id="map" class="mapBox" style='margin-top:1em'></div>
+                          <div class="col-md-12 text-center">
+                              <button  onclick="crearNegocio()"  type="button" value="submit" class="btn submit_btn">Registrar negocio</button>
+                          </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
         <div id="success" class="modal modal-message fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -168,12 +170,55 @@
             </div>
         </div>
 
+<div id="modalProductos" class="modal modal-message fade" role="dialog" style='top: 0em;height: 40em;'>
+  <div class="modal-dialog" style='max-width: 45em;padding-top: 40em;'>
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <i class="fa fa-close"></i>
+              </button>
+              <h2>Administrar productos</h2>
+              <div id='existingProducts'></div>
+                <form style='padding-top:1em' class="row contact_form" action="" method="post" id="csda" novalidate="novalidate">
+                    <div class="col-md-12 text-center">
+                      <div class="input-group">
+  <input style="width:50%;margin-right: 1em; " class="form-control " id="productoNuevo" placeholder="Producto"  name="productoNuevo" type="text" />
+  <input style="width:30% " class="form-control " id="precioNuevo" placeholder="Precio"  name="precioNuevo" type="text" />
+  </div>
+                </form>
+                <div class="col-md-12 text-center">
+                    <button  onclick="guardarProductos()"  type="button" value="submit" class="btn submit_btn">Agregar producto</button>
+                </div>
+          </div>
+      </div>
+  </div>
+</div>
 
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/stellar.js"></script>
+<script src="vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.ajaxchimp.min.js"></script>
+<script src="vendors/counter-up/jquery.waypoints.min.js"></script>
+<script src="vendors/counter-up/jquery.counterup.min.js"></script>
+<script src="js/theme.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     </body>
 </html>
 
+
 <script>
 var usuario;
+var chazas;
+var lat;
+var lng;
+var globalIndex;
+
 $( document ).ready(function() {
   usuario = localStorage.getItem("usuario");
   console.log(JSON.parse(usuario));
@@ -183,9 +228,157 @@ $( document ).ready(function() {
   }
 
   $('#uname').html(usuario.nombre+' '+usuario.apellido.charAt(0)+'.');
-
-
+  getchazasofuser();
 });
+
+
+function mapChazas(){
+  var theIndex = 0;
+  console.log(chazas);
+  $('#chazasofuser').empty();
+  chazas.forEach(chaza=>{
+    if(chaza.calificacion == null || chaza.calificacion == undefined || chaza.calificacion == '0'){
+       var score = 'n/a'
+    }
+    else{
+      score = chaza.calificacion
+    }
+    $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;" class="col-lg-12"><div style="width: 60em;" class="price_item"><div class="price_head"><h4>'+chaza.nombre+'</h4></div><div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li><a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#"><b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#"><b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#"><b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#"><b>Administrador: </b>'+chaza.administrador+'</a></li></ul></div><div style="margin:-18em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr"></span> '+score+' <span class="month">Basado en <br />Calificaciones</span></h3><a class="main_btn" onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a> <br><a  onClick="deleteChaza(\'' + theIndex + '\')" href="#"><span style="padding-top:1em; color:red" class="fa fa-2x fa-trash"></a></span></div></div></div>');
+    theIndex++;
+  })
+}
+
+function guardarProductos(){
+  var nuevoProducto = $('#productoNuevo').val();
+  var nuevoPrecio =  $('#precioNuevo').val();
+  var id = chazas[globalIndex]._id;
+  var xhr;
+  xhr = $.ajax({
+      url: "http://localhost:3001/nuevoProducto",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({id:id,producto:nuevoProducto,precio:nuevoPrecio}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.añadido== 'ok'){
+             reloadProducts(data.productos);
+             getchazasofuser();
+             toastr.success('El producto ha sido añadido');
+
+          }
+          else{
+            $('#modalProductos').modal('hide');
+            $('#error').modal('show');
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#modalProductos').modal('hide');
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+
+
+}
+
+function deleteChaza(chazaIndex){
+  var id = chazas[chazaIndex]._id;
+  var xhr;
+  xhr = $.ajax({
+      url: "http://localhost:3001/removeChaza",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({id:id}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.removido== 'ok'){
+            getchazasofuser();
+          }
+          else{
+            $('#errormsg').html(data.error);
+            $('#error').modal('show');
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+
+}
+
+//"manageProducts('+chaza.productos+','+chaza._id+')"
+function manageProducts(chazaIndex){
+  console.log(chazaIndex);
+  //chaza = JSON.parse(chaza);
+  $('#existingProducts').empty();
+  var productIndex = 0;
+  chazas[chazaIndex].productos.forEach(product=>{
+    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+    productIndex++;
+  })
+  $('#modalProductos').modal('show');
+  globalIndex = chazaIndex;
+}
+
+function reloadProducts(productos){
+  var productIndex = 0;
+  $('#existingProducts').empty();
+  productos.forEach(product=>{
+    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+    productIndex++;
+  })
+
+}
+
+function deleteProduct(index){
+  var id= chazas[globalIndex]._id;
+  console.log(index);
+  var xhr;
+  xhr = $.ajax({
+      url: "http://localhost:3001/removerProducto",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({id:id, index:index}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.removido== 'ok'){
+             reloadProducts(data.productos);
+             getchazasofuser();
+             toastr.success('El producto ha sido eliminado');
+          }
+          else{
+            $('#error').modal('show');
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+
+}
 
 function cerrarSesion(){
   localStorage.removeItem("usuario");
@@ -196,13 +389,62 @@ function iniciarRegistro(){
   $('#ingModal').modal('show');
 }
 
+function initMap(){
+  var myLatLng = {lat: 4.636477, lng:  -74.083403};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 17,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Arrastrame a la ubicación',
+    draggable:true
+  });
+  google.maps.event.addListener(marker, 'dragend', function (event) {
+    lat = this.getPosition().lat();
+    lng = this.getPosition().lng();
+    console.log(lat);
+    console.log(lng);
+});
+
+}
+
+function getchazasofuser(){
+  var xhr;
+  xhr = $.ajax({
+
+      url: "http://localhost:3001/getchazasofuser",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({email:usuario.email}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+              chazas =  (data.negocios);
+              mapChazas();
+              // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr
+}
+
+
 function crearNegocio(){
   var nombre =$('#nombreval').val();
   var descripcion =  $('#descripcionval').val();
   var celular =  $('#celularval').val();
   var horario =  $('#horarioval').val();
-  var lat =0;
-  var lng =0;
+  var categoria = $('#cate').val();
 
   $('#errormsg').html();
 
@@ -214,12 +456,13 @@ function crearNegocio(){
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
       dataType: "json",
-      data: JSON.stringify({administrador: usuario.nombre+' '+usuario.apellido,
-      nombre: nombre, descripcion: descripcion, celular: celular, horario:horario, latitud: lat, longitud:lng }),
+      data: JSON.stringify({administrador: usuario.nombre+' '+usuario.apellido, email: usuario.email , categoria: categoria,
+      nombre: nombre, descripcion: descripcion, celular: celular, horario:horario, latitud: lat, longitud:lng, horario: horario}),
       contentType: "application/json; charset=utf-8",
       success: function(data) {
           console.log(data);
-          if(data.validado== 'ok'){
+          if(data.registrado== 'ok'){
+            getchazasofuser();
             $('#ingModal').modal('hide');
             $('#success').modal('show');
           }
@@ -242,3 +485,6 @@ function crearNegocio(){
 }
 
 </script>
+
+<!--gmaps Js-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE&callback=initMap"></script>
