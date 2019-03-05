@@ -42,8 +42,11 @@ router.post('/ingresar', async (req,res)=>{
 })
 
 router.post('/nuevonegocio', async (req,res) =>{
-  const {nombre, descripcion, administrador, celular, latitud, longitud} = req.body;
+  const {nombre, descripcion, administrador, celular, latitud, longitud, horario,email,categoria} = req.body;
   const errors = [];
+  console.log(req.body)
+  var aid;
+        console.log('correo: '+email);
 
   if(nombre.length <=0){
     errors.push({status: 'Error. Inserta un nombre'});
@@ -56,13 +59,22 @@ router.post('/nuevonegocio', async (req,res) =>{
   }
 
   if(errors.length == 0){
-    const newNegocio = new Chaza({nombre,descripcion,administrador,celular,latitud,longitud});
-    await newNegocio.save();
-    res.json({
-      status: 'Negocio registrado exitosamente!', registrado: 'ok'
-     });
-   }
-   
+    const newNegocio = new Chaza({nombre,descripcion,administrador,celular,latitud,longitud,horario,categoria});
+    await newNegocio.save(async function(err,obj) {
+        aid = obj._id;
+        console.log(aid)
+        if(aid!=null && aid!=undefined){
+          var usuario = await User.findOne({email: email});
+          console.log(usuario);
+          usuario.chaza.push({iden: aid})
+          usuario.save();
+          res.json({
+            status: 'Negocio registrado exitosamente!', registrado: 'ok'
+           });
+        }
+      });;
+  }
+
   else{
     res.json({registrado: 'not'});
    }
@@ -70,6 +82,79 @@ router.post('/nuevonegocio', async (req,res) =>{
 
 })
 
+router.post('/getchazasofuser', async (req,res) =>{
+  const {email} = req.body;
+  var usuario = await User.findOne({email: email},
+       function(err,obj) {
+          });
+
+  var itemGroupItemIds = usuario.chaza.map(function(item){
+    return item.iden
+    });
+  const chazas = await Chaza.find({_id: {$in: itemGroupItemIds}});
+  console.log(chazas[0].nombre);
+  res.json({negocios: chazas});
+
+});
+
+router.post('/nuevoProducto', async (req,res) =>{
+  const {producto,precio,id} = req.body;
+  var errors = 0;
+  if(producto.length <=0){
+     errors++;
+  }
+  if(precio.length<=0){
+     errors++;
+  }
+  var chaza = await Chaza.findOne({_id: id},
+       function(err,obj) {
+         if(!err && errors == 0){
+           obj.productos.push({producto:producto,precio:precio});
+           obj.save(function(err){
+              var productosActualizados = obj.productos;
+              res.json({añadido: 'ok', productos: productosActualizados});
+            });
+
+         }
+         else{
+           res.json({añadido: 'not'});
+         }
+
+          });
+
+});
+
+router.post('/removerProducto', async (req,res) =>{
+  const {id,index} = req.body;
+  var chaza = await Chaza.findOne({_id: id},
+       function(err,obj) {
+         if(!err){
+           console.log('eliminando: '+obj.productos[index]);
+           obj.productos.splice(index, 1);
+           obj.save(function(err){
+              var productosActualizados = obj.productos;
+              res.json({removido: 'ok', productos: productosActualizados});
+            });
+
+         }
+         else{
+           res.json({removido: 'not'});
+            }
+          });
+
+});
+
+router.post('/removeChaza', async (req,res) =>{
+  Chaza.remove({ _id: req.body.id }, function(err) {
+    if (!err) {
+            res.json({removido: 'ok'});
+    }
+    else {
+            res.json({removido: 'not', error:'No se pudo remover'});
+    }
+});
+
+});
 
 router.post('/registrarse', async (req,res) =>{
   const {nombre, apellido, email, password, rol} = req.body;

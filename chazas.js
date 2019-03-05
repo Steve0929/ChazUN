@@ -6,14 +6,15 @@ const chazaSchema = new Schema({
     nombre: {type: String, required: true},
     administrador: {type: String, required: true},
     celular: {type: String, required: false},
-    latitud: {type: Number, required: true},
-    longitud: {type: Number, required: true},
+    latitud: {type: String, required: true},
+    longitud: {type: String, required: true},
     descripcion: {type: String, required: true},
-    productos: [{producto: String, precio: Number}],
+    productos: [{producto: String, precio: String}],
     calificaciones: [{calificacion: Number, calificador: String}],
     comentarios: [{comentario: String, autor: String}],
     horario: {type: String, required: true},
-
+    calificacion: {type: String, required: false, default: 0},
+    categoria: {type: String, required: true}
 });
 
 module.exports = mongoose.model('chazas', chazaSchema);

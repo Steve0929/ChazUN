@@ -9,7 +9,7 @@ const userSchema = new Schema({
     password: {type: String, required: true},
     timeStamp: {type: String, required: true},
     rol: {type: String, required: true},
-    chaza: {iden: String, required: false}
+    chaza: [{iden: String, required: false}]
 });
 
 module.exports = mongoose.model('users', userSchema);
