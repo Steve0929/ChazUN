@@ -65,7 +65,8 @@
   </section>
 
   <script>
-
+var url = 'http://localhost:3001';
+//var url = '';
 
     function registrarNuevo(){
     var nombre = $('#nombreval').val();
@@ -80,7 +81,7 @@
     var xhr;
     xhr = $.ajax({
 
-        url: "http://localhost:3001/registrarse",
+        url: url+"/registrarse",
         type: "POST",
         async: true, // set to false if you don't mind the page pausing while waiting for response
         cache: false,

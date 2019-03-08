@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="icon" href="img/favicon.png" type="image/png">
+        <title>ChazUN</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="vendors/linericon/style.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css">
+        <link rel="stylesheet" href="vendors/lightbox/simpleLightbox.css">
+        <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css">
+        <link rel="stylesheet" href="vendors/animate-css/animate.css">
+        <link rel="stylesheet" href="vendors/flaticon/flaticon.css">
+        <!-- main css -->
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<style>
+body{
+  -webkit-font-smoothing: antialiased;
+}
+.rowComent{
+border-color: rgb(77, 171, 255) !important;
+border-radius: 5px;
+border: 1px solid;
+margin: 2em;
+}
+/* - - - - - RATINGS */
+.rating {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  height: 30px;
+  padding: 5px 10px;
+  margin: auto;
+  border-radius: 30px;
+  background: #FFF;
+  display: block;
+  overflow: hidden;
+  top: 3em;
+  right: 30em;
+  width: 13em;
+  height: 35px;
+
+
+  box-shadow: 0 1px #CCC,
+              0 5px #DDD,
+              0 9px 6px -3px #999;
+
+  unicode-bidi: bidi-override;
+  direction: rtl;
+  margin-bottom: 2em;
+}
+.rating:not(:checked) > input {
+  display: none;
+}
+
+/* - - - - - RATE */
+#rate {
+  top: -65px;
+}
+#rate:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+
+  color: rgba(0, 135, 211, .4);
+  line-height: 33px;
+  text-align: center;
+}
+#rate:not(:checked) > label:hover,
+#rate:not(:checked) > label:hover ~ label {
+  color: rgba(0, 135, 211, .6);
+}
+#rate > input:checked + label:hover,
+#rate > input:checked + label:hover ~ label,
+#rate > input:checked ~ label:hover,
+#rate > input:checked ~ label:hover ~ label,
+#rate > label:hover ~ input:checked ~ label {
+  color: rgba(0, 135, 211, .8);
+}
+#rate > input:checked ~ label {
+  color: rgb(0, 135, 211);
+}
+/* - - - - - LIKE */
+#like {
+  bottom: -65px;
+}
+#like:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+
+  color: rgba(233, 54, 40, .4);
+  line-height: 33px;
+  text-align: center;
+}
+#like:not(:checked) > label:hover,
+#like:not(:checked) > label:hover ~ label {
+  color: rgba(233, 54, 40, .6);
+}
+#like > input:checked + label:hover,
+#like > input:checked + label:hover ~ label,
+#like > input:checked ~ label:hover,
+#like > input:checked ~ label:hover ~ label,
+#like > label:hover ~ input:checked ~ label {
+  color: rgba(233, 54, 40, .8);
+}
+#like > input:checked ~ label {
+  color: rgb(233, 54, 40);
+}
+</style>
+    </head>
+    <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #4dabff ; height: 6em">
+        <a class="navbar-brand" href="#">ChazUN - Explorar negocios</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mr-auto">
+
+          </ul>
+          <span class="navbar-text">
+            <!--	<li class="nav-item"  style='list-style-type: none; padding-right:1em'><a href="#" class="tickets_btn">Explorar</a></li> -->
+          </span>
+          <span class="navbar-text">
+          <!--  <li class="nav-item" style='list-style-type: none;'><a href="#cha" class="tickets_btn">Mis chazas</a></li> -->
+          </span>
+
+          <li style='list-style-type: none;' class="nav-item submenu dropdown">
+          <a id='uname' style='color: white;'href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+          <ul class="dropdown-menu dropdown-menu-right">
+          <li class="nav-item"><a class="nav-link" href="#">Perfil</a>
+          <li class="nav-item"><a onclick="cerrarSesion()" class="nav-link" href="#">Cerrar sesión</a>
+          </ul>
+          </li>
+
+        </div>
+      </nav>
+
+        <!--================Header Menu Area =================-->
+
+        <section id='landing' class="home_banner_area" style='height: 900px !important;
+        background-image: -webkit-linear-gradient(0deg, white 0%,  white  100%);'>
+
+        <div id="map" class="mapBox" style='margin-top:1em'></div>
+
+        <section class="price_area p_120">
+
+        </section>
+
+        </section>
+
+        <!--================End Footer Area =================-->
+
+
+        <div id="modalComentarios" class="modal modal-message fade" role="dialog" style='height: 40em;'>
+          <!-- height: 50em;max-width: 50em;overflow-x: hidden;overflow-y: scroll;top:25em;-->
+            <div class="modal-dialog" style='max-width: 45em;padding-top: 40em;'>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <h2>Califica el servicio de la chaza y deja un comentario</h2>
+                          <form class="row contact_form" action="" method="post" id="contactForm" novalidate="novalidate">
+                              <div class="col-md-12 text-center">
+                                <section id="like" class="rating">
+                                <!-- FIFTH HEART -->
+                                <input type="radio" id="heart_5"  name="like" value="5"  onchange="getHeartValue(this.value)"/>
+                                <label for="heart_5" title="Five">&#10084;</label>
+                                <!-- FOURTH HEART -->
+                                <input  type="radio" id="heart_4" name="like" value="4" onchange="getHeartValue(this.value)"/>
+                                <label for="heart_4" title="Four">&#10084;</label>
+                                <!-- THIRD HEART -->
+                                <input  type="radio" id="heart_3"  name="like" value="3"onchange="getHeartValue(this.value)"/>
+                                <label for="heart_3" title="Three">&#10084;</label>
+                                <!-- SECOND HEART -->
+                                <input  type="radio" id="heart_2" name="like" value="2" onchange="getHeartValue(this.value)"/>
+                                <label for="heart_2" title="Two">&#10084;</label>
+                                <!-- FIRST HEART -->
+                                <input  type="radio" id="heart_1" name="like" value="1" onchange="getHeartValue(this.value)"/>
+                                <label for="heart_1" title="One">&#10084;</label>
+                                </section>
+
+                              <label for="comment"><b>Comentario (Opcional):</b></label>
+                              <textarea class="form-control" rows="3" id="comentario"></textarea>
+
+                          </form>
+                          <div class="col-md-12 text-center">
+                              <button  onclick="calificarChaza()"  type="button" value="submit" class="btn submit_btn">Enviar mi calificación</button>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+  </div>
+
+        <div id="success" class="modal modal-message fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <h2>Gracias :)</h2>
+                        <p>Tus comentarios y calificaciones ayudan a mejorar el servicio de las chazas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="error" class="modal modal-message fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="fa fa-close"></i>
+                        </button>
+                        <h2>Lo sentimos !</h2>
+                        <p>Algo salio mal</p>
+                        <p id='errormsg'></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/popper.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/stellar.js"></script>
+<script src="vendors/lightbox/simpleLightbox.min.js"></script>
+<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
+<script src="js/jquery.ajaxchimp.min.js"></script>
+<script src="vendors/counter-up/jquery.waypoints.min.js"></script>
+<script src="vendors/counter-up/jquery.counterup.min.js"></script>
+<script src="js/theme.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    </body>
+</html>
+
+
+<script>
+var url = 'http://localhost:3001';
+//var url = '';
+var usuario;
+var chazas;
+var globalIndex;
+var map;
+var corazones = 0;
+
+$( document ).ready(function() {
+  usuario = localStorage.getItem("usuario");
+  console.log(JSON.parse(usuario));
+  usuario = JSON.parse(usuario);
+  if(usuario==null || usuario == undefined){
+     window.location.replace('index.html')
+  }
+
+  $('#uname').html(usuario.nombre+' '+usuario.apellido.charAt(0)+'.');
+  getAllChazas();
+
+});
+
+function getHeartValue(val){
+  console.log(val);
+  corazones = val;
+}
+
+function calificarChaza(){
+  chazaCalificar = chazas[globalIndex];
+  date = new Date();
+  var comentario = $('#comentario').val();
+  console.log(date,comentario);
+
+  var xhr;
+  xhr = $.ajax({
+      url: url+"/calificarChaza",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({calificacion:parseInt(corazones),autor:usuario.nombre+' '+usuario.apellido,comentario:comentario,
+      timeStamp: date, email: usuario.email, chaza:chazaCalificar}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.añadido== 'ok'){
+             $('#modalComentarios').modal('hide');
+             $('#success').modal('show');
+             toastr.success('Tu calificación ha sido añadida');
+             resetFields();
+
+          }
+          else if(data.añadido== 'updated'){
+            $('#modalComentarios').modal('hide');
+            $('#success').modal('show');
+            toastr.success('Tu calificación ha sido actualizada');
+            resetFields();
+          }
+          else{
+            $('#modalComentarios').modal('hide');
+            $('#error').modal('show');
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#modalComentarios').modal('hide');
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+
+}
+
+function resetFields(){
+  $('#comentario').val('');
+  $('#heart_1').prop('checked', false);
+  $('#heart_2').prop('checked', false);
+  $('#heart_3').prop('checked', false);
+  $('#heart_4').prop('checked', false);
+  $('#heart_5').prop('checked', false);
+  globalIndex = null;
+
+}
+
+function mapChazas(){
+  var theIndex = 0;
+
+  console.log(chazas);
+  chazas.forEach(chaza=>{
+    var myLatLng = {lat: parseFloat(chaza.latitud), lng: parseFloat(chaza.longitud)};
+    console.log(myLatLng)
+    var contentString = '<div id="content" style="margin:1em">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+chaza.nombre+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p><b>Descripción: </b>'+chaza.descripcion+'</p>'+
+      '<p><b>Horario de atención: </b>'+chaza.horario+'</p>'+
+      '<p><b>Categoría: </b>'+chaza.categoria+'</p>'+
+      '<a style="margin-top:1em" style="color:white" class="main_btn" onClick="abrirModuloCalificar(\'' + theIndex + '\')" href="#">Calificar esta chaza</a>'+
+      '</div>'+
+      '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    var marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: chaza.nombre
+         });
+
+   marker.addListener('click', function() {
+   infowindow.open(map, marker);
+    });
+    theIndex++;
+
+  })
+  /*
+  $('#chazasofuser').empty();
+  chazas.forEach(chaza=>{
+    if(chaza.calificacion == null || chaza.calificacion == undefined || chaza.calificacion == '0'){
+       var score = 'n/a'
+    }
+    else{
+      score = chaza.calificacion
+    }
+    $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;" class="col-lg-12"><div style="width: 60em;height: 31em;" class="price_item"><div class="price_head"><h4><a style="left: 9em;position: absolute;" onClick="deleteChaza(\'' + theIndex + '\')" href="#"><span style="color:red" class="fa fa-1x fa-trash"></a></span>'+chaza.nombre+'</h4></div><div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li><a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#"><b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#"><b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#"><b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#"><b>Administrador: </b>'+chaza.administrador+'</a></li><li><a style="color:white" class="main_btn" onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a> </li></ul></div><div style="margin:-22em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr"></span> '+score+' <span class="month">Basado en <br />Calificaciones</span></h3><a class="main_btn" onClick="openComentarios(\'' + theIndex + '\')" href="#">Ver comentarios</a></span></div></div></div>');
+    theIndex++;
+  })*/
+}
+
+function abrirModuloCalificar(chazaIndex){
+ $('#modalComentarios').modal('show');
+ globalIndex = chazaIndex;
+}
+
+function guardarProductos(){
+  var nuevoProducto = $('#productoNuevo').val();
+  var nuevoPrecio =  $('#precioNuevo').val();
+  var id = chazas[globalIndex]._id;
+  var xhr;
+  xhr = $.ajax({
+      url: url+"/nuevoProducto",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({id:id,producto:nuevoProducto,precio:nuevoPrecio}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.añadido== 'ok'){
+             reloadProducts(data.productos);
+             getchazasofuser();
+             toastr.success('El producto ha sido añadido');
+
+          }
+          else{
+            $('#modalProductos').modal('hide');
+            $('#error').modal('show');
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#modalProductos').modal('hide');
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+
+
+}
+
+
+
+//"manageProducts('+chaza.productos+','+chaza._id+')"
+function manageProducts(chazaIndex){
+  console.log(chazaIndex);
+  //chaza = JSON.parse(chaza);
+  $('#existingProducts').empty();
+  var productIndex = 0;
+  chazas[chazaIndex].productos.forEach(product=>{
+    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+    productIndex++;
+  })
+  $('#modalProductos').modal('show');
+  globalIndex = chazaIndex;
+}
+
+function reloadProducts(productos){
+  var productIndex = 0;
+  $('#existingProducts').empty();
+  productos.forEach(product=>{
+    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+    productIndex++;
+  })
+
+}
+
+
+function cerrarSesion(){
+  localStorage.removeItem("usuario");
+  window.location.replace('index.html')
+}
+
+function iniciarRegistro(){
+  $('#ingModal').modal('show');
+}
+
+function initMap(){
+  var myLatLng = {lat: 4.636477, lng:  -74.083403};
+
+    map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 17,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Arrastrame a la ubicación',
+    draggable:true
+  });
+  google.maps.event.addListener(marker, 'dragend', function (event) {
+    lat = this.getPosition().lat();
+    lng = this.getPosition().lng();
+    console.log(lat);
+    console.log(lng);
+});
+
+}
+
+function getAllChazas(){
+  var xhr;
+  xhr = $.ajax({
+
+      url: url+"/chazas",
+      type: "GET",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+              chazas =  (data);
+              console.log(data)
+              mapChazas();
+              // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr
+
+}
+
+
+
+function crearNegocio(){
+  var nombre =$('#nombreval').val();
+  var descripcion =  $('#descripcionval').val();
+  var celular =  $('#celularval').val();
+  var horario =  $('#horarioval').val();
+  var categoria = $('#cate').val();
+
+  $('#errormsg').html();
+
+  var xhr;
+  xhr = $.ajax({
+
+      url: url+"/nuevonegocio",
+      type: "POST",
+      async: true, // set to false if you don't mind the page pausing while waiting for response
+      cache: false,
+      dataType: "json",
+      data: JSON.stringify({administrador: usuario.nombre+' '+usuario.apellido, email: usuario.email , categoria: categoria,
+      nombre: nombre, descripcion: descripcion, celular: celular, horario:horario, latitud: lat, longitud:lng, horario: horario}),
+      contentType: "application/json; charset=utf-8",
+      success: function(data) {
+          console.log(data);
+          if(data.registrado== 'ok'){
+            getchazasofuser();
+            $('#ingModal').modal('hide');
+            $('#success').modal('show');
+          }
+          else{
+            $('#ingModal').modal('hide');
+            $('#error').modal('show');
+            $('#errormsg').html(data.error);
+          }
+          // handle your successful response here
+      },
+      error: function(xhr, ajaxOptions, thrownError) {
+          $('#ingModal').modal('hide');
+          $('#error').modal('show');
+          // handle your fail response here
+      }
+  });
+   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
+
+  return xhr;
+}
+
+</script>
+
+<!--gmaps Js-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE&callback=initMap"></script>

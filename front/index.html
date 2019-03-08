@@ -177,6 +177,9 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> | Tod
 </html>
 
 <script>
+var url = 'http://localhost:3001';
+//var url  = '';
+
 function ingresar(){
   $('#ingModal').modal('show');
 }
@@ -189,7 +192,7 @@ function validarIngreso(){
   var xhr;
   xhr = $.ajax({
 
-      url: "http://localhost:3001/ingresar",
+      url: url+"/ingresar",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
@@ -206,6 +209,10 @@ function validarIngreso(){
             if(usuario.rol == 'admin'){
                localStorage.setItem("usuario", JSON.stringify(usuario));
                window.location.replace('admin.html')
+            }
+            if(usuario.rol == 'cliente'){
+               localStorage.setItem("usuario", JSON.stringify(usuario));
+               window.location.replace('explorar.html')
             }
 
 

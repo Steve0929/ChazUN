@@ -19,6 +19,138 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/responsive.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
+<style>
+body{
+  -webkit-font-smoothing: antialiased;
+}
+.rowComent{
+border-color: rgb(77, 171, 255) !important;
+border-radius: 5px;
+border: 1px solid;
+margin: 2em;
+}
+/* - - - - - RATINGS */
+.rating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 150px;
+  height: 30px;
+  padding: 5px 10px;
+  margin: auto;
+  border-radius: 30px;
+  background: #FFF;
+  display: block;
+  overflow: hidden;
+  top: 3em;
+  right: 30em;
+  width: 13em;
+  height: 35px;
+
+
+  box-shadow: 0 1px #CCC,
+              0 5px #DDD,
+              0 9px 6px -3px #999;
+
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+.rating:not(:checked) > input {
+  display: none;
+}
+
+/* - - - - - RATE */
+#rate {
+  top: -65px;
+}
+#rate:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+
+  color: rgba(0, 135, 211, .4);
+  line-height: 33px;
+  text-align: center;
+}
+#rate:not(:checked) > label:hover,
+#rate:not(:checked) > label:hover ~ label {
+  color: rgba(0, 135, 211, .6);
+}
+#rate > input:checked + label:hover,
+#rate > input:checked + label:hover ~ label,
+#rate > input:checked ~ label:hover,
+#rate > input:checked ~ label:hover ~ label,
+#rate > label:hover ~ input:checked ~ label {
+  color: rgba(0, 135, 211, .8);
+}
+#rate > input:checked ~ label {
+  color: rgb(0, 135, 211);
+}
+/* - - - - - LIKE */
+#like {
+  bottom: -65px;
+}
+#like:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+
+  color: rgba(233, 54, 40, .4);
+  line-height: 33px;
+  text-align: center;
+}
+#like:not(:checked) > label:hover,
+#like:not(:checked) > label:hover ~ label {
+  color: rgba(233, 54, 40, .6);
+}
+#like > input:checked + label:hover,
+#like > input:checked + label:hover ~ label,
+#like > input:checked ~ label:hover,
+#like > input:checked ~ label:hover ~ label,
+#like > label:hover ~ input:checked ~ label {
+  color: rgba(233, 54, 40, .8);
+}
+#like > input:checked ~ label {
+  color: rgb(233, 54, 40);
+}
+
+.proof {
+  bottom: -65px;
+}
+.proof:not(:checked) > label {
+  cursor:pointer;
+  float: right;
+  width: 30px;
+  height: 30px;
+  display: block;
+
+  color: rgba(233, 54, 40, .4);
+  line-height: 33px;
+  text-align: center;
+}
+.proof:not(:checked) > label:hover,
+.proof:not(:checked) > label:hover ~ label {
+  color: rgba(233, 54, 40, .6);
+}
+.proof > input:checked + label:hover,
+.proof > input:checked + label:hover ~ label,
+.proof > input:checked ~ label:hover,
+.proof > input:checked ~ label:hover ~ label,
+.proof > label:hover ~ input:checked ~ label {
+  color: rgba(233, 54, 40, .8);
+}
+.proof > input:checked ~ label {
+  color: rgb(233, 54, 40);
+}
+
+</style>
     </head>
     <body>
 
@@ -32,7 +164,7 @@
 
           </ul>
           <span class="navbar-text">
-          	<li class="nav-item"  style='list-style-type: none; padding-right:1em'><a href="#" class="tickets_btn">Explorar</a></li>
+          	<li class="nav-item"  style='list-style-type: none; padding-right:1em'><a href="explorar.html" class="tickets_btn">Explorar</a></li>
           </span>
           <span class="navbar-text">
             <li class="nav-item" style='list-style-type: none;'><a href="#cha" class="tickets_btn">Mis chazas</a></li>
@@ -113,7 +245,6 @@
                                     <option value='Alimentos'>Alimentos</option>
                                     <option value='Papeleria'>Papeleria</option>
                                     <option value='Elementos electrónicos'>Elementos electrónicos</option>
-                                    <option value='Bebidas'>Bebidas</option>
                                     <option value='Accesorios'>Accesorios</option>
                                     <option value='Material audiovisual'>Material audiovisual</option>
                                     <option value='Otros'>Otros</option>
@@ -141,6 +272,7 @@
                 </div>
             </div>
         </div>
+
         <div id="success" class="modal modal-message fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -170,6 +302,67 @@
             </div>
         </div>
 
+        <div id="modalComentarios" class="modal modal-message fade" role="dialog" style='top: 0em;height: 40em;'>
+          <div class="modal-dialog" style='max-width: 60em;padding-top: 40em;'>
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <i class="fa fa-close"></i>
+                      </button>
+                      <h2>Lo que los usuarios estan diciendo de tu negocio</h2>
+
+      <!--  <article class="row rowComent">
+            <div class="col-md-2 col-sm-2 hidden-xs" style="margin-top:3em">
+              <figure class="thumbnail">
+                <img class="img-responsive" src="user.png" width='48em' height='48em'/>
+                <figcaption class="text-center">Cliente</figcaption>
+              </figure>
+            </div>
+            <div class="col-md-10 col-sm-10"  style="margin-top:2em">
+              <div class="panel panel-default arrow left">
+                <div class="panel-body">
+                  <header class="text-left">
+                    <div class="comment-user"><i class="fa fa-user"></i> Autor</div>
+                    <time class="comment-date" ><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
+                  </header>
+                  <div style="border-top-left-radius:0px;text-align: justify;" class="comment-post" >
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    </p>
+                  </div>
+
+                <section id="like" class="rating">
+
+                <input disabled type="radio" id="heart_5"  name="like" value="5"  onchange="getHeartValue(this.value)"/>
+                <label for="heart_5" title="Five">&#10084;</label>
+
+                <input disabled type="radio" id="heart_4" name="like" value="4" onchange="getHeartValue(this.value)"/>
+                <label for="heart_4" title="Four">&#10084;</label>
+
+                <input  disabled="disabled" checked="checked" type="radio" id="heart_3"  name="like" value="3"onchange="getHeartValue(this.value)"/>
+                <label for="heart_3" title="Three">&#10084;</label>
+
+                <input disabled type="radio" id="heart_2" name="like" value="2" onchange="getHeartValue(this.value)"/>
+                <label for="heart_2" title="Two">&#10084;</label>
+
+                <input disabled type="radio" id="heart_1" name="like" value="1" onchange="getHeartValue(this.value)"/>
+                <label for="heart_1" title="One">&#10084;</label>
+              </section>
+
+                  <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
+                </div>
+              </div>
+            </div>
+          </article> -->
+          <div id='comentarios'></div>
+        </div>
+
+
+                  </div>
+              </div>
+          </div>
+
+
 <div id="modalProductos" class="modal modal-message fade" role="dialog" style='top: 0em;height: 40em;'>
   <div class="modal-dialog" style='max-width: 45em;padding-top: 40em;'>
       <div class="modal-content">
@@ -192,7 +385,9 @@
           </div>
       </div>
   </div>
+ </div>
 </div>
+
 
 
 <!-- Optional JavaScript -->
@@ -213,6 +408,8 @@
 
 
 <script>
+var url = 'http://localhost:3001';
+//var url = '';
 var usuario;
 var chazas;
 var lat;
@@ -229,8 +426,16 @@ $( document ).ready(function() {
 
   $('#uname').html(usuario.nombre+' '+usuario.apellido.charAt(0)+'.');
   getchazasofuser();
+
+  $('#modalComentarios').on('hidden.bs.modal', function () {
+      $('#comentarios').empty();
+    })
+
 });
 
+function getHeartValue(val){
+  console.log(val);
+}
 
 function mapChazas(){
   var theIndex = 0;
@@ -243,9 +448,88 @@ function mapChazas(){
     else{
       score = chaza.calificacion
     }
-    $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;" class="col-lg-12"><div style="width: 60em;" class="price_item"><div class="price_head"><h4>'+chaza.nombre+'</h4></div><div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li><a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#"><b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#"><b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#"><b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#"><b>Administrador: </b>'+chaza.administrador+'</a></li></ul></div><div style="margin:-18em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr"></span> '+score+' <span class="month">Basado en <br />Calificaciones</span></h3><a class="main_btn" onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a> <br><a  onClick="deleteChaza(\'' + theIndex + '\')" href="#"><span style="padding-top:1em; color:red" class="fa fa-2x fa-trash"></a></span></div></div></div>');
+    $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;" class="col-lg-12"><div style="width: 60em;height: 31em;" class="price_item"><div class="price_head"><h4><a style="left: 9em;position: absolute;" onClick="deleteChaza(\'' + theIndex + '\')" href="#"><span style="color:red" class="fa fa-1x fa-trash"></a></span>'+chaza.nombre+'</h4></div><div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li><a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#"><b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#"><b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#"><b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#"><b>Administrador: </b>'+chaza.administrador+'</a></li><li><a style="color:white" class="main_btn" '+
+    'onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a> </li></ul></div>'+
+    '<div style="margin:-22em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr">'+
+    '</span> '+score+' <span class="month">Basado en '+chaza.totalCalificaciones+'<br />Calificaciones</span></h3><a class="main_btn" onClick="openComentarios(\'' + theIndex + '\')" href="#">Ver comentarios</a></span></div></div></div>');
     theIndex++;
   })
+}
+
+function openComentarios(chazaIndex){
+
+ chazas[chazaIndex].comentarios.forEach(comentario=>{
+   var isChecked1 = '';
+   var isChecked2 = '';
+   var isChecked3 = '';
+   var isChecked4 = '';
+   var isChecked5 = '';
+   if(comentario.calificacion == 1){
+      isChecked1 = 'checked';
+   }
+   else if(comentario.calificacion == 2){
+      isChecked2 = 'checked';
+   }
+   else if(comentario.calificacion == 3){
+      isChecked3 = 'checked';
+      console.log(isChecked3)
+   }
+   else if(comentario.calificacion == 4){
+      isChecked4 = 'checked';
+   }
+   else if(comentario.calificacion == 5){
+      isChecked5 = 'checked';
+   }
+  console.log(isChecked1,isChecked2,isChecked3,isChecked4,isChecked5)
+   var inyect = '<article class="row rowComent" style="   height: 15em;">'+
+               '<div class="col-md-2 col-sm-2 hidden-xs" style="margin-top:3em">'+
+             '<figure class="thumbnail">'+
+              '<img class="img-responsive" src="user.png" width="48em" height="48em"/>'+
+              '<figcaption class="text-center">Cliente</figcaption>'+
+            '</figure>'+
+           '</div>'+
+           '<div class="col-md-10 col-sm-10"  style="margin-top:2em">'+
+             '<div class="panel panel-default arrow left">'+
+               '<div class="panel-body">'+
+                 '<header class="text-left">'+
+                   '<div class="comment-user"><i class="fa fa-user"></i> '+comentario.autor+'</div>'+
+                   '<time class="comment-date" ><i class="fa fa-clock-o"></i>'+comentario.timeStamp+'</time>'+
+                 '</header>'+
+                 '<div style="border-top-left-radius:0px;text-align: justify;" class="comment-post" >'+
+                  '<p>'+
+                     comentario.comentario+
+                   '</p>'+
+                '</div>'+
+
+               '<section id='+comentario.timeStamp+' class="rating proof">'+
+
+              '<input   type="radio" '+isChecked5+' id="heart_5'+comentario.timeStamp+'"  name="like'+comentario.timeStamp+'" value="5"  disabled onchange="getHeartValue(this.value)"/>'+
+               '<label for="heart_5" title="Five">&#10084;</label>'+
+
+              '<input   type="radio" '+isChecked4+' id="heart_4'+comentario.timeStamp+'"  name="like'+comentario.timeStamp+'" value="4" disabled onchange="getHeartValue(this.value)"/>'+
+               '<label for="heart_4" title="Four">&#10084;</label>'+
+
+               '<input  type="radio"  '+isChecked3+' id="heart_3'+comentario.timeStamp+'" name="like'+comentario.timeStamp+'" value="3" disabled onchange="getHeartValue(this.value)"/>'+
+               '<label for="heart_3" title="Three">&#10084;</label>'+
+
+               '<input  type="radio"  '+isChecked2+' id="heart_2'+comentario.timeStamp+'" name="like'+comentario.timeStamp+'" value="2" disabled onchange="getHeartValue(this.value)"/>'+
+               '<label for="heart_2" title="Two">&#10084;</label>'+
+
+               '<input type="radio"  '+isChecked1+' id="heart_1'+comentario.timeStamp+'" name="like'+comentario.timeStamp+'" value="1" disabled onchange="getHeartValue(this.value)"/>'+
+               '<label for="heart_1" title="One">&#10084;</label>'+
+               '</section>'+
+
+               '</div>'+
+            '</div>'+
+           '</div>'+
+         '</article>'
+
+  $('#comentarios').append(inyect);
+
+ })
+
+
+ $('#modalComentarios').modal('show');
 }
 
 function guardarProductos(){
@@ -254,7 +538,7 @@ function guardarProductos(){
   var id = chazas[globalIndex]._id;
   var xhr;
   xhr = $.ajax({
-      url: "http://localhost:3001/nuevoProducto",
+      url: url+"/nuevoProducto",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
@@ -292,7 +576,7 @@ function deleteChaza(chazaIndex){
   var id = chazas[chazaIndex]._id;
   var xhr;
   xhr = $.ajax({
-      url: "http://localhost:3001/removeChaza",
+      url: url+"/removeChaza",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
@@ -350,7 +634,7 @@ function deleteProduct(index){
   console.log(index);
   var xhr;
   xhr = $.ajax({
-      url: "http://localhost:3001/removerProducto",
+      url: url+"/removerProducto",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
@@ -416,7 +700,7 @@ function getchazasofuser(){
   var xhr;
   xhr = $.ajax({
 
-      url: "http://localhost:3001/getchazasofuser",
+      url: url+"/getchazasofuser",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
@@ -451,7 +735,7 @@ function crearNegocio(){
   var xhr;
   xhr = $.ajax({
 
-      url: "http://localhost:3001/nuevonegocio",
+      url: url+"/nuevonegocio",
       type: "POST",
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
