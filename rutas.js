@@ -82,6 +82,57 @@ router.post('/nuevonegocio', async (req,res) =>{
 
 })
 
+router.post('/calificarChaza', async(req,res)=>{
+  const {email,calificacion,autor,comentario,timeStamp,chaza} = req.body;
+  var shouldUpdate = false;
+  await Chaza.findOne({_id: chaza._id},
+       function(err,obj) {
+         //var chazObj = obj;
+         var updateIndex = 0;
+         var index = null;
+         obj.comentarios.forEach(comentario=>{
+            if(comentario.autorEmail == email){
+              shouldUpdate = true;
+              index = updateIndex;
+            }
+           updateIndex++;
+          });
+
+          if(shouldUpdate){
+            obj.calificacion = obj.calificacion - obj.comentarios[index].calificacion; //restar antigua califiacion
+            obj.comentarios[index] = {comentario:comentario,autor:autor,autorEmail:email,
+                                            calificacion:calificacion,timeStamp:timeStamp};
+            var average = 0;
+            obj.comentarios.forEach(comentario=>{
+                average= average + comentario.calificacion;
+            });
+            average = parseFloat((average)/obj.totalCalificaciones).toFixed(1);
+            obj.calificacion = average;
+            //obj.calificacion = (obj.calificacion + calificacion)/ obj.totalCalificaciones; //sumar nueva calificacion
+            obj.save();
+            res.json({añadido: 'updated'});
+          }
+          else{
+            obj.comentarios.push({comentario:comentario,autor:autor,autorEmail:email,
+                                       calificacion:calificacion,timeStamp:timeStamp});
+
+            obj.totalCalificaciones = obj.totalCalificaciones + 1;
+
+            var average = 0;
+            obj.comentarios.forEach(comentario=>{
+                average= average + comentario.calificacion;
+            });
+            average = parseFloat((average)/obj.totalCalificaciones).toFixed(1);
+            obj.calificacion = average;
+            //obj.calificacion = (obj.calificacion + calificacion)/ obj.totalCalificaciones;
+            obj.save();
+            res.json({añadido: 'ok'});
+          }
+
+        });
+
+});
+
 router.post('/getchazasofuser', async (req,res) =>{
   const {email} = req.body;
   var usuario = await User.findOne({email: email},

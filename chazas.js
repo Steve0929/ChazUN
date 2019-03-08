@@ -11,10 +11,11 @@ const chazaSchema = new Schema({
     descripcion: {type: String, required: true},
     productos: [{producto: String, precio: String}],
     calificaciones: [{calificacion: Number, calificador: String}],
-    comentarios: [{comentario: String, autor: String}],
+    comentarios: [{comentario: String, autor: String, autorEmail: String, timeStamp: Date, calificacion: Number}],
     horario: {type: String, required: true},
-    calificacion: {type: String, required: false, default: 0},
-    categoria: {type: String, required: true}
+    calificacion: {type: Number, required: false, default: 0},
+    categoria: {type: String, required: true},
+    totalCalificaciones: {type: Number, required: false, default:0}
 });
 
 module.exports = mongoose.model('chazas', chazaSchema);
