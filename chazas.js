@@ -15,7 +15,8 @@ const chazaSchema = new Schema({
     horario: {type: String, required: true},
     calificacion: {type: Number, required: false, default: 0},
     categoria: {type: String, required: true},
-    totalCalificaciones: {type: Number, required: false, default:0}
+    totalCalificaciones: {type: Number, required: false, default:0},
+    vendedores:[{nombre: String, apellido: String, email: String}]
 });
 
 module.exports = mongoose.model('chazas', chazaSchema);

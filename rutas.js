@@ -140,10 +140,13 @@ router.post('/getchazasofuser', async (req,res) =>{
           });
 
   var itemGroupItemIds = usuario.chaza.map(function(item){
-    return item.iden
+    if(item.iden.length>2){
+      return item.iden
+    }
     });
+
   const chazas = await Chaza.find({_id: {$in: itemGroupItemIds}});
-  console.log(chazas[0].nombre);
+  //console.log(chazas[0].nombre);
   res.json({negocios: chazas});
 
 });
@@ -175,6 +178,59 @@ router.post('/nuevoProducto', async (req,res) =>{
 
 });
 
+router.post('/addVendedor', async (req,res) =>{
+  const {email,id} = req.body;
+  await User.findOne({email: email},
+       async function(err,vendedor) {
+         console.log(vendedor)
+         if(err || vendedor == null || vendedor == undefined){
+              res.json({añadido: 'not'});
+            }
+         else{
+          vendedor.chaza.push({iden: id});
+          vendedor.save();
+          await Chaza.findOne({_id: id},
+                function(err,obj) {
+                  if(!err){
+                    obj.vendedores.push({nombre:vendedor.nombre ,apellido:vendedor.apellido,email:email});
+                    obj.save(function(err){
+                       var vendedoresActualizados = obj.vendedores;
+                       res.json({añadido: 'ok', vendedores: vendedoresActualizados});
+                     });
+
+                  }
+                  else{
+                    res.json({añadido: 'not'});
+                  }
+
+                   });
+          }
+      });
+
+
+})
+
+router.post('/updateChaza', async (req,res) =>{
+  const {nombre, descripcion,celular,horario,id} = req.body;
+   await Chaza.findOne({_id: id},
+       function(err,obj) {
+         if(!err){
+          obj.nombre = nombre;
+          obj.descripcion = descripcion;
+          obj.celular = celular;
+          obj.horario = horario;
+           obj.save(function(err){
+              res.json({updated: 'ok'});
+            });
+
+         }
+         else{
+           res.json({updated: 'not'});
+            }
+          });
+
+});
+
 router.post('/removerProducto', async (req,res) =>{
   const {id,index} = req.body;
   var chaza = await Chaza.findOne({_id: id},
@@ -185,6 +241,45 @@ router.post('/removerProducto', async (req,res) =>{
            obj.save(function(err){
               var productosActualizados = obj.productos;
               res.json({removido: 'ok', productos: productosActualizados});
+            });
+
+         }
+         else{
+           res.json({removido: 'not'});
+            }
+          });
+
+});
+
+router.post('/removerVendedor', async (req,res) =>{
+  const {id,index,email} = req.body;
+
+  var vende = await User.findOne({email: email},
+       async function(err,vendedor) {
+         console.log(vendedor)
+         if(err || vendedor == null || vendedor == undefined){
+              res.json({removido: 'not'});
+            }
+         else{
+           for(var i = 0; i<vendedor.chaza.length;i++){
+               if(vendedor.chaza[i].iden == id){
+                 console.log(id);
+                 console.log(vendedor.chaza[i].iden);
+                 //vendedor.chaza.splice(i, 1);
+                 vendedor.chaza[i].iden = '';
+                 console.log('spliced')
+               }
+             }
+            vendedor.save();
+          }
+      });
+  var chaza = await Chaza.findOne({_id: id},
+       function(err,obj) {
+         if(!err){
+           obj.vendedores.splice(index, 1);
+           obj.save(function(err){
+              var vendedoresActualizados = obj.vendedores;
+              res.json({removido: 'ok', vendedores: vendedoresActualizados});
             });
 
          }
