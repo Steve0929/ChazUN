@@ -143,7 +143,7 @@ margin: 2em;
           <li style='list-style-type: none;' class="nav-item submenu dropdown">
           <a id='uname' style='color: white;'href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
           <ul class="dropdown-menu dropdown-menu-right">
-          <li class="nav-item"><a class="nav-link" href="#">Perfil</a>
+          <li class="nav-item"><a onClick="toProfile()" class="nav-link" href="#">Perfil</a>
           <li class="nav-item"><a onclick="cerrarSesion()" class="nav-link" href="#">Cerrar sesión</a>
           </ul>
           </li>
@@ -279,6 +279,15 @@ $( document ).ready(function() {
 
 });
 
+function toProfile(){
+  if(usuario.rol == 'admin'){
+     window.location.replace('admin.html')
+  }
+  if(usuario.rol == 'vendedor'){
+     window.location.replace('vendedor.html')
+  }
+}
+
 function getHeartValue(val){
   console.log(val);
   corazones = val;
@@ -379,18 +388,7 @@ function mapChazas(){
     theIndex++;
 
   })
-  /*
-  $('#chazasofuser').empty();
-  chazas.forEach(chaza=>{
-    if(chaza.calificacion == null || chaza.calificacion == undefined || chaza.calificacion == '0'){
-       var score = 'n/a'
-    }
-    else{
-      score = chaza.calificacion
-    }
-    $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;" class="col-lg-12"><div style="width: 60em;height: 31em;" class="price_item"><div class="price_head"><h4><a style="left: 9em;position: absolute;" onClick="deleteChaza(\'' + theIndex + '\')" href="#"><span style="color:red" class="fa fa-1x fa-trash"></a></span>'+chaza.nombre+'</h4></div><div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li><a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#"><b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#"><b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#"><b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#"><b>Administrador: </b>'+chaza.administrador+'</a></li><li><a style="color:white" class="main_btn" onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a> </li></ul></div><div style="margin:-22em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr"></span> '+score+' <span class="month">Basado en <br />Calificaciones</span></h3><a class="main_btn" onClick="openComentarios(\'' + theIndex + '\')" href="#">Ver comentarios</a></span></div></div></div>');
-    theIndex++;
-  })*/
+
 }
 
 function abrirModuloCalificar(chazaIndex){
@@ -398,71 +396,6 @@ function abrirModuloCalificar(chazaIndex){
  globalIndex = chazaIndex;
 }
 
-function guardarProductos(){
-  var nuevoProducto = $('#productoNuevo').val();
-  var nuevoPrecio =  $('#precioNuevo').val();
-  var id = chazas[globalIndex]._id;
-  var xhr;
-  xhr = $.ajax({
-      url: url+"/nuevoProducto",
-      type: "POST",
-      async: true, // set to false if you don't mind the page pausing while waiting for response
-      cache: false,
-      dataType: "json",
-      data: JSON.stringify({id:id,producto:nuevoProducto,precio:nuevoPrecio}),
-      contentType: "application/json; charset=utf-8",
-      success: function(data) {
-          console.log(data);
-          if(data.añadido== 'ok'){
-             reloadProducts(data.productos);
-             getchazasofuser();
-             toastr.success('El producto ha sido añadido');
-
-          }
-          else{
-            $('#modalProductos').modal('hide');
-            $('#error').modal('show');
-          }
-          // handle your successful response here
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-          $('#modalProductos').modal('hide');
-          $('#error').modal('show');
-          // handle your fail response here
-      }
-  });
-   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
-
-  return xhr;
-
-
-}
-
-
-
-//"manageProducts('+chaza.productos+','+chaza._id+')"
-function manageProducts(chazaIndex){
-  console.log(chazaIndex);
-  //chaza = JSON.parse(chaza);
-  $('#existingProducts').empty();
-  var productIndex = 0;
-  chazas[chazaIndex].productos.forEach(product=>{
-    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
-    productIndex++;
-  })
-  $('#modalProductos').modal('show');
-  globalIndex = chazaIndex;
-}
-
-function reloadProducts(productos){
-  var productIndex = 0;
-  $('#existingProducts').empty();
-  productos.forEach(product=>{
-    $('#existingProducts').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+product.producto+'<span style="margin-left: 46em;position:absolute" class="badge badge-success badge-pill">$'+product.precio+'</span><a onClick="deleteProduct(\'' + productIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
-    productIndex++;
-  })
-
-}
 
 
 function cerrarSesion(){
@@ -470,9 +403,6 @@ function cerrarSesion(){
   window.location.replace('index.html')
 }
 
-function iniciarRegistro(){
-  $('#ingModal').modal('show');
-}
 
 function initMap(){
   var myLatLng = {lat: 4.636477, lng:  -74.083403};
@@ -522,53 +452,6 @@ function getAllChazas(){
 
   return xhr
 
-}
-
-
-
-function crearNegocio(){
-  var nombre =$('#nombreval').val();
-  var descripcion =  $('#descripcionval').val();
-  var celular =  $('#celularval').val();
-  var horario =  $('#horarioval').val();
-  var categoria = $('#cate').val();
-
-  $('#errormsg').html();
-
-  var xhr;
-  xhr = $.ajax({
-
-      url: url+"/nuevonegocio",
-      type: "POST",
-      async: true, // set to false if you don't mind the page pausing while waiting for response
-      cache: false,
-      dataType: "json",
-      data: JSON.stringify({administrador: usuario.nombre+' '+usuario.apellido, email: usuario.email , categoria: categoria,
-      nombre: nombre, descripcion: descripcion, celular: celular, horario:horario, latitud: lat, longitud:lng, horario: horario}),
-      contentType: "application/json; charset=utf-8",
-      success: function(data) {
-          console.log(data);
-          if(data.registrado== 'ok'){
-            getchazasofuser();
-            $('#ingModal').modal('hide');
-            $('#success').modal('show');
-          }
-          else{
-            $('#ingModal').modal('hide');
-            $('#error').modal('show');
-            $('#errormsg').html(data.error);
-          }
-          // handle your successful response here
-      },
-      error: function(xhr, ajaxOptions, thrownError) {
-          $('#ingModal').modal('hide');
-          $('#error').modal('show');
-          // handle your fail response here
-      }
-  });
-   xhr.setRequestHeader("Access-Control-Allow-Origin: *");
-
-  return xhr;
 }
 
 </script>

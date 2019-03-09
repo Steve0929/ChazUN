@@ -156,7 +156,7 @@ margin: 2em;
     <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #4dabff ; height: 6em">
-        <a class="navbar-brand" href="#">ChazUN - Administradores</a>
+        <a class="navbar-brand" href="#">ChazUN - Vendedores</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -174,7 +174,7 @@ margin: 2em;
           <li style='list-style-type: none;' class="nav-item submenu dropdown">
           <a id='uname' style='color: white;'href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
           <ul class="dropdown-menu dropdown-menu-right">
-        <!--  <li class="nav-item"><a class="nav-link" href="#">Perfil</a> -->
+
           <li class="nav-item"><a onclick="cerrarSesion()" class="nav-link" href="#">Cerrar sesión</a>
           </ul>
           </li>
@@ -189,34 +189,15 @@ margin: 2em;
 
         <section class="price_area p_120">
           <div  class="container">
-            <div class="main_title">
+        <!--    <div class="main_title">
               <h2>Registra tu chaza</h2>
               <p>Podras añadir tu negocio a ChazUN para que los usuarios puedan acceder a información como horarios, precios y productos. Los usuarios podrán calificar y comentar tu negocio</p>
                 <a onclick="iniciarRegistro()" class="main_btn center-block" style='margin-top:2em' href="#">Crear negocio</a>
-            </div>
+            </div> -->
             <hr id='cha'/>
-
+            <div id='noChazas'></div>
             <div  id='chazasofuser' class="price_inner row"  style='margin-top:5em;'>
 
-              <!-- <div class="col-lg-4">
-                <div class="price_item">
-                  <div class="price_head">
-                    <h4>Real Basic</h4>
-                  </div>
-                  <div class="price_body">
-                    <ul class="list">
-                      <li><a href="#">2.5 GB Space</a></li>
-                      <li><a href="#">Horario:</a></li>
-                      <li><a href="#">Unlimited Styles</a></li>
-                      <li><a href="#">Customer Service</a></li>
-                    </ul>
-                  </div>
-                  <div class="price_footer">
-                    <h3><span class="dlr">$</span> 39 <span class="month">Per <br />Month</span></h3>
-                    <a class="main_btn" href="#">Administrar productos</a>
-                  </div>
-                </div>
-              </div> -->
 
             </div>
 
@@ -312,49 +293,6 @@ margin: 2em;
                       </button>
                       <h2>Lo que los usuarios estan diciendo de tu negocio</h2>
 
-      <!--  <article class="row rowComent">
-            <div class="col-md-2 col-sm-2 hidden-xs" style="margin-top:3em">
-              <figure class="thumbnail">
-                <img class="img-responsive" src="user.png" width='48em' height='48em'/>
-                <figcaption class="text-center">Cliente</figcaption>
-              </figure>
-            </div>
-            <div class="col-md-10 col-sm-10"  style="margin-top:2em">
-              <div class="panel panel-default arrow left">
-                <div class="panel-body">
-                  <header class="text-left">
-                    <div class="comment-user"><i class="fa fa-user"></i> Autor</div>
-                    <time class="comment-date" ><i class="fa fa-clock-o"></i> Dec 16, 2014</time>
-                  </header>
-                  <div style="border-top-left-radius:0px;text-align: justify;" class="comment-post" >
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-                  </div>
-
-                <section id="like" class="rating">
-
-                <input disabled type="radio" id="heart_5"  name="like" value="5"  onchange="getHeartValue(this.value)"/>
-                <label for="heart_5" title="Five">&#10084;</label>
-
-                <input disabled type="radio" id="heart_4" name="like" value="4" onchange="getHeartValue(this.value)"/>
-                <label for="heart_4" title="Four">&#10084;</label>
-
-                <input  disabled="disabled" checked="checked" type="radio" id="heart_3"  name="like" value="3"onchange="getHeartValue(this.value)"/>
-                <label for="heart_3" title="Three">&#10084;</label>
-
-                <input disabled type="radio" id="heart_2" name="like" value="2" onchange="getHeartValue(this.value)"/>
-                <label for="heart_2" title="Two">&#10084;</label>
-
-                <input disabled type="radio" id="heart_1" name="like" value="1" onchange="getHeartValue(this.value)"/>
-                <label for="heart_1" title="One">&#10084;</label>
-              </section>
-
-                  <p class="text-right"><a href="#" class="btn btn-default btn-sm"><i class="fa fa-reply"></i> reply</a></p>
-                </div>
-              </div>
-            </div>
-          </article> -->
           <div id='comentarios'></div>
         </div>
 
@@ -487,7 +425,7 @@ $( document ).ready(function() {
   usuario = localStorage.getItem("usuario");
   console.log(JSON.parse(usuario));
   usuario = JSON.parse(usuario);
-  if(usuario==null || usuario == undefined || usuario.rol != 'admin'){
+  if(usuario==null || usuario == undefined){
      window.location.replace('index.html')
   }
 
@@ -517,9 +455,8 @@ function mapChazas(){
     }
     $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;"'+
     'class="col-lg-12"><div style="width: 60em;height: 31em;" class="price_item"><div class="price_head">'+
-    '<h4><a style="left: 9em;position: absolute;" onClick="deleteChaza(\'' + theIndex + '\')" href="#">'+
-    '<span style="color:red" class="fa fa-1x fa-trash"></a></span>'+chaza.nombre+
-    '<a style="left: 11em;position: absolute;" onClick="updateChazaModal(\'' + theIndex + '\')" href="#">'+
+    '<h4>'+chaza.nombre+
+    '<a style="left: 9em;position: absolute;" onClick="updateChazaModal(\'' + theIndex + '\')" href="#">'+
     '<span style="color:#FDC830" class="fa fa-1x fa-pencil"></a></span>'+
     '</h4></div>'+
     '<div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li>'+
@@ -529,8 +466,6 @@ function mapChazas(){
     '<b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#">'+
     '<b>Administrador: </b>'+chaza.administrador+'</a></li><li><a style="color:white" class="main_btn" '+
     'onClick="manageProducts(\'' + theIndex + '\')" href="#">Administrar productos</a>'+
-    '<a style=";color:white;margin-left:1em" class="main_btn" '+
-      'onClick="manageVendedoresModal(\'' + theIndex + '\')" href="#"><span style="margin-top:;color:" class="fa fa-2x fa-id-badge"></span></a>'+
     '</li>'+
     '</ul></div>'+
     '<div style="margin:-22em auto 40px;margin-left: 35em !important;"class="price_footer"><h3><span class="dlr">'+
@@ -548,7 +483,7 @@ function manageVendedoresModal(index){
   $('#existingVendedores').empty();
   var vendedorIndex = 0;
   chazas[index].vendedores.forEach(vendedor=>{
-    $('#existingVendedores').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-user-circle-o" style="font-size:24px"></i><div style="margin-right:28em">'+vendedor.nombre+" "+vendedor.apellido+" "+vendedor.email+'</div><a onClick="deleteVendedor(\'' + vendedorIndex + '\' ,\'' + vendedor.email + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+    $('#existingVendedores').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-user-circle-o" style="font-size:24px"></i><div style="margin-right:28em">'+vendedor.nombre+" "+vendedor.apellido+'</div><a onClick="deleteVendedor(\'' + vendedorIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
     vendedorIndex++;
   })
 
@@ -557,19 +492,18 @@ function manageVendedoresModal(index){
 }
 
 function reloadVendedores(vendedores){
-  $('#emailVendedor').val('');
   var vendedorIndex = 0;
   $('#existingVendedores').empty();
   vendedores.forEach(vendedor=>{
-      $('#existingVendedores').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-user-circle-o" style="font-size:24px"></i><div style="margin-right:28em">'+vendedor.nombre+" "+vendedor.apellido+" "+vendedor.email+'</div><a onClick="deleteVendedor(\'' + vendedorIndex + '\' ,\'' + vendedor.email + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
+      $('#existingVendedores').append('<ul class="list-group" style="padding-bottom:1em"><li  class="list-group-item d-flex justify-content-between align-items-center"><i class="fa fa-user-circle-o" style="font-size:24px"></i><div style="margin-right:28em">'+vendedor.nombre+" "+vendedor.apellido+'</div><a onClick="deleteVendedor(\'' + vendedorIndex + '\')" href="#"><i style="color:red" class="fa fa-trash"></i></a></li></ul>');
     vendedorIndex++;
   })
 
 }
 
-function deleteVendedor(index, email){
+function deleteVendedor(index){
   var id= chazas[globalIndex]._id;
-  console.log(index, email);
+  console.log(index);
   var xhr;
   xhr = $.ajax({
       url: url+"/removerVendedor",
@@ -577,7 +511,7 @@ function deleteVendedor(index, email){
       async: true, // set to false if you don't mind the page pausing while waiting for response
       cache: false,
       dataType: "json",
-      data: JSON.stringify({id:id, index:index, email:email}),
+      data: JSON.stringify({id:id, index:index}),
       contentType: "application/json; charset=utf-8",
       success: function(data) {
           console.log(data);
@@ -622,7 +556,9 @@ function agregarVendedor(){
             toastr.success('El vendedor ha sido añadido');
           }
           else{
+            $('#modalVendedores').modal('hide');
             toastr.error('El correo ingresado no se encuentra registrado');
+            $('#error').modal('show');
           }
           // handle your successful response here
       },
@@ -862,8 +798,6 @@ function manageProducts(chazaIndex){
 }
 
 function reloadProducts(productos){
-  $('#productoNuevo').val('');
-  $('#precioNuevo').val('');
   var productIndex = 0;
   $('#existingProducts').empty();
   productos.forEach(product=>{
@@ -952,18 +886,22 @@ function getchazasofuser(){
       data: JSON.stringify({email:usuario.email}),
       contentType: "application/json; charset=utf-8",
       success: function(data) {
-              chazas =  (data.negocios);
-              mapChazas();
+                chazas =  (data.negocios);
+                if(data.negocios== undefined || chazas == undefined || chazas == null|| chazas.length == 0){
+                  $('#noChazas').append('<h4>Aún no estás vinculado a ninguna chaza, ponte en contacto con tu administrador para que te añada al negocio.</h4>');
+                }
+                mapChazas();
               // handle your successful response here
       },
       error: function(xhr, ajaxOptions, thrownError) {
-
+          $('#noChazas').append('<h4>Aún no estás vinculado a ninguna chaza, ponte en contacto con tu administrador para que te añada al negocio.</h4>');
           // handle your fail response here
       }
   });
    xhr.setRequestHeader("Access-Control-Allow-Origin: *");
 
   return xhr
+
 }
 
 

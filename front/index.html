@@ -37,17 +37,17 @@
 						<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 							<ul class="nav navbar-nav menu_nav justify-content-center">
 								<li class="nav-item active"><a class="nav-link" href="index.html">Inicio</a></li>
-								<li class="nav-item"><a class="nav-link" href="about-us.html">Acerca de</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Acerca de</a></li>
 								<li class="nav-item submenu dropdown">
 									<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">El equipo</a>
 									<ul class="dropdown-menu">
-										<li class="nav-item"><a class="nav-link" href="price.html">Cristian</a>
-										<li class="nav-item"><a class="nav-link" href="elements.html">Diego</a></li>
-                    <li class="nav-item"><a class="nav-link" href="elements.html">Esteban</a></li>
+										<li class="nav-item"><a class="nav-link" href="#">Cristian</a>
+										<li class="nav-item"><a class="nav-link" href="#">Diego</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Esteban</a></li>
 									</ul>
 								</li>
 								</li>
-								<li class="nav-item"><a class="nav-link" href="contact.html">Contacto</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
 							</ul>
 							<ul class="nav navbar-nav navbar-right">
 								<li class="nav-item"><a href="#" class="tickets_btn">Explorar</a></li>
@@ -214,7 +214,10 @@ function validarIngreso(){
                localStorage.setItem("usuario", JSON.stringify(usuario));
                window.location.replace('explorar.html')
             }
-
+            if(usuario.rol == 'vendedor'){
+               localStorage.setItem("usuario", JSON.stringify(usuario));
+               window.location.replace('vendedor.html')
+            }
 
           }
           else{
