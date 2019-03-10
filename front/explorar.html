@@ -4,7 +4,7 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="icon" href="img/favicon.png" type="image/png">
+        <link rel="icon" type="image/png" href="https://pbs.twimg.com/profile_images/64126112/favicon.gif" />
         <title>ChazUN</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="css/bootstrap.css">
@@ -120,9 +120,133 @@ margin: 2em;
 #like > input:checked ~ label {
   color: rgb(233, 54, 40);
 }
+
+html, body
+{
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y:hidden;/*bloquea el scroll de la pagina*/
+
+}
+
+
+
+h2 {
+  margin-left: 16px;
+}
+
+h4{
+  color:#999999;
+}
+
+
+#barraDerecha { /*panel lateral*/
+
+  background:white;
+  display: none;
+  height:100%;
+  margin: 0px;
+  overflow:scroll;
+  padding: 0px;
+  position:absolute;/*Not remove*/
+  right:0;
+  width:27em;/*Anchura de la ventana*/
+  z-index:1000;/*Not remove*/
+  overflow-x: hidden;
+  top:6em;
+  padding-top: 2em;
+ }
+
+#tituloChaza{
+  margin: auto;
+  background-color: white;
+  text-align: center;
+ }
+
+ #fotoChaza{
+  position: relative;
+  margin: auto;
+  margin-top: 20px;
+  height: 200px;
+  width: 200px;
+
+  }
+
+  #fotoChaza img{
+    width: 100%;
+    max-height: 100%;
+
+  }
+
+ #DescripcionChaza{
+
+   position: relative;
+   margin-left: 25px;
+   margin-right: 20px;
+   margin-top: 2em;
+
+
+ }
+
+ #fotosChacero{
+   position: relative;
+   margin-top: 10px;
+   margin-left: 20px;
+   margin-right: 20px;
+   background-color:white;
+   height: 150px;
+   overflow:scroll;
+   white-space:nowrap;
+   overflow-y: hidden;
+
+ }
+
+ #fotosChacero img{
+    position:relative;
+     overflow: scroll;
+    width: 50%;
+    max-height: 100%;
+    display: inline-block;
+ }
+
+#CalificaChacero{
+  font-size: 20px;
+  margin: auto;
+  position: relative;
+  margin-left: 40%;
+   margin-top: 10px;
+  background-color: #58a0d6;
+  border-radius: 8px;
+}
+
+.no-touch .scrollable.hover {
+  overflow-y:hidden;
+}
+
+.no-touch .scrollable.hover:hover {
+  overflow-y:auto;
+  overflow:visible;
+}
+
+/*Fin panel lateral*/
+
+#popUp{/*Mensaje de chazUN al comenzar*/
+
+  text-align: center;
+  font-size: 50px;
+  background: #58a0d6;
+
+}
+
 </style>
     </head>
     <body>
+
+      <div id ="popUp" class="alert alert-success" role="alert">
+           <img src="https://4.bp.blogspot.com/-Qq4gwGHsBrg/XIR5PmJ7RMI/AAAAAAAATVg/cn47xcs55OoCLa7Jk5OJTD92J_Ale-3xwCK4BGAYYCw/s1600/chazunBackground.png" width =960px height="720"></img>
+   </div>
+
 
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #4dabff ; height: 6em">
         <a class="navbar-brand" href="#">ChazUN - Explorar negocios</a>
@@ -156,7 +280,29 @@ margin: 2em;
         <section id='landing' class="home_banner_area" style='height: 900px !important;
         background-image: -webkit-linear-gradient(0deg, white 0%,  white  100%);'>
 
-        <div id="map" class="mapBox" style='margin-top:1em'></div>
+        <div id="barraDerecha">
+
+         <div id = "tituloChaza">
+             <h1>Chaza La playita</h1>
+         </div>
+
+         <div id="DescripcionChaza">
+
+             <p>
+                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                 Proin ut pellentesque sapien. Sed elit purus, tempor a mi sit amet,
+                 tempor elementum turpis. Pellentesque placerat tincidunt elit,
+             </p>
+
+         </div>
+
+         <div id = "CalificaChacer"></div>
+         <hr />
+          <div id = "productosChaza" style='height: 100%;'></div>
+
+       </div>
+
+        <div style="height: 100%;" id="map" class="mapBox" style='margin-top:1em'></div>
 
         <section class="price_area p_120">
 
@@ -240,6 +386,7 @@ margin: 2em;
         </div>
 
 
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="js/jquery-3.2.1.min.js"></script>
@@ -274,10 +421,25 @@ $( document ).ready(function() {
      window.location.replace('index.html')
   }
 
+  houseIcon = new google.maps.MarkerImage(
+  'https://www.google.com.au/maps/vt/icon/name=assets/icons/poi/tactile/pinlet_shadow-1-small.png,assets/icons/poi/tactile/pinlet-1-small.png,assets/icons/poi/quantum/pinlet/dot_pinlet-1-small.png&highlight=ff000000,26c6da,ffffff&color=ff000000?scale=4',
+    null,
+    null,
+    null,
+   // new google.maps.Size(15, 15) //42, 68
+   new google.maps.Size(20, 40)
+    );
+
   $('#uname').html(usuario.nombre+' '+usuario.apellido.charAt(0)+'.');
   getAllChazas();
 
 });
+
+window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove();
+    });
+}, 200);// aqui iba 4000
 
 function toProfile(){
   if(usuario.rol == 'admin'){
@@ -368,7 +530,7 @@ function mapChazas(){
       '<p><b>Descripción: </b>'+chaza.descripcion+'</p>'+
       '<p><b>Horario de atención: </b>'+chaza.horario+'</p>'+
       '<p><b>Categoría: </b>'+chaza.categoria+'</p>'+
-      '<a style="margin-top:1em" style="color:white" class="main_btn" onClick="abrirModuloCalificar(\'' + theIndex + '\')" href="#">Calificar esta chaza</a>'+
+      //'<a style="margin-top:1em" style="color:white" class="main_btn" onClick="abrirModuloCalificar(\'' + theIndex + '\')" href="#">Calificar esta chaza</a>'+
       '</div>'+
       '</div>';
 
@@ -379,16 +541,43 @@ function mapChazas(){
     var marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        title: chaza.nombre
+        icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+        title: chaza.nombre,
+        chazaObj: chaza,
+        elIndex: theIndex
          });
 
    marker.addListener('click', function() {
-   infowindow.open(map, marker);
+     //infowindow.open(map, marker);
+      populateInfo(chaza, marker.elIndex);
     });
     theIndex++;
 
   })
 
+}
+
+function populateInfo(chaza, elIndex){
+  console.log(chaza);
+  $("#productosChaza").empty();
+  $("#productosChaza" ).append('<h2>Productos:</h2>')
+  //clean
+  //inyect  <a href="#" onClick='closeBarra()'><i class="fa fa-close" style=#margin-left:1em;"></i></a>
+  $("#tituloChaza" ).html('<h1>'+chaza.nombre+'</h1>');
+  $("#DescripcionChaza" ).html('<p><b>Descripción: </b>'+chaza.descripcion+'</p><p><b>Horario de atención: </b>'+chaza.horario+'</p><p><b>Categoría: </b>'+chaza.categoria+'</p><p><b>Contacto: </b>'+chaza.celular+'</p>');
+  $("#CalificaChacer" ).html('<a style="margin-top:1em;margin-left:28%" style="color:white" class="main_btn" onClick="abrirModuloCalificar(\'' + elIndex + '\')" href="#">Calificar esta chaza</a>');
+
+  chaza.productos.forEach(producto=>{
+    $("#productosChaza" ).append('<ul class="list-group" style="padding-bottom:1em;margin:1em"><li  class="list-group-item d-flex justify-content-between align-items-center">'+producto.producto+'<span style="margin-left: 22em;position:absolute" class="badge badge-success badge-pill">$'+producto.precio+'</span></li></ul>');
+  })
+
+
+  $("#barraDerecha" ).show();
+
+}
+
+function closeBarra(){
+  $("#barraDerecha" ).hide();
 }
 
 function abrirModuloCalificar(chazaIndex){
@@ -454,6 +643,8 @@ function getAllChazas(){
 
 }
 
+//AIzaSyAjhVwrAIBnn-3jwfPSWOf8GOxWNr50wcw
+//<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE&callback=initMap"></script>
 </script>
 
 <!--gmaps Js-->
