@@ -405,7 +405,7 @@ h4{
 
 
 <script>
-var url = 'http://localhost:3001';
+var url = 'https://chazunservidor.herokuapp.com';
 //var url = '';
 var usuario;
 var chazas;
@@ -456,6 +456,12 @@ function getHeartValue(val){
 }
 
 function calificarChaza(){
+
+  if(usuario.rol == 'admin' || usuario.rol == 'vendedor'){
+     toastr.warning('Lo sentimos. No es posible calificar chazas como administrador o vendedor');
+  }
+
+  if(usuario.rol == 'cliente'){
   chazaCalificar = chazas[globalIndex];
   date = new Date();
   var comentario = $('#comentario').val();
@@ -501,7 +507,7 @@ function calificarChaza(){
    xhr.setRequestHeader("Access-Control-Allow-Origin: *");
 
   return xhr;
-
+  }
 }
 
 function resetFields(){

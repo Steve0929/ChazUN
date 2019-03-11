@@ -255,7 +255,8 @@ margin: 2em;
                                       <input type="nombre" class="form-control" id="nombreval" name="nombre" placeholder="Nombre del negocio">
                                   </div>
                                   <div class="form-group">
-                                      <input type="descripcion" class="form-control" id="descripcionval" name="descripcion" placeholder="Descripcion">
+                                    <textarea id="descripcionval" class="form-control" rows="2" placeholder="Decripción"></textarea>
+                                      <!-- <input type="descripcion" class="form-control" id="descripcionval" name="descripcion" placeholder="Descripcion">-->
                                   </div>
                                   <div class="form-group">
                                       <input type="horario" class="form-control" id="horarioval" name="horario" placeholder="Horario de atención">
@@ -414,7 +415,8 @@ margin: 2em;
                               <input type="nombre" class="form-control" id="nombrevale" name="nombre" placeholder="Nombre del negocio">
                           </div>
                           <div class="form-group">
-                              <input type="descripcion" class="form-control" id="descripcionvale" name="descripcion" placeholder="Descripcion">
+                            <textarea id="descripcionvale" class="form-control" rows="2" placeholder="Decripción"></textarea>
+                            <!--  <input type="descripcion" class="form-control" id="descripcionvale" name="descripcion" placeholder="Descripcion">-->
                           </div>
                           <div class="form-group">
                               <input type="horario" class="form-control" id="horariovale" name="horario" placeholder="Horario de atención">
@@ -475,7 +477,7 @@ margin: 2em;
 
 
 <script>
-var url = 'http://localhost:3001';
+var url = 'https://chazunservidor.herokuapp.com';
 //var url = '';
 var usuario;
 var chazas;
@@ -515,8 +517,9 @@ function mapChazas(){
     else{
       score = chaza.calificacion
     }
+    //height: 31em;
     $('#chazasofuser').append('<div id='+chaza._id+' style="padding-left: 11em;margin-bottom: 3em;"'+
-    'class="col-lg-12"><div style="width: 60em;height: 31em;" class="price_item"><div class="price_head">'+
+    'class="col-lg-12"><div style="width: 60em;" class="price_item"><div class="price_head">'+
     '<h4><a style="left: 9em;position: absolute;" onClick="deleteChaza(\'' + theIndex + '\')" href="#">'+
     '<span style="color:red" class="fa fa-1x fa-trash"></a></span>'+chaza.nombre+
     '<a style="left: 11em;position: absolute;" onClick="updateChazaModal(\'' + theIndex + '\')" href="#">'+
@@ -524,7 +527,7 @@ function mapChazas(){
     '</h4></div>'+
     '<div class="price_body"><ul class="list" style="text-align: justify;margin: 2em;"><li>'+
     '<a href="#"><b>Contacto: </b>'+chaza.celular+'</a></li><li><a href="#">'+
-    '<b>Horario: </b>'+chaza.horario+'</a></li><li><a href="#">'+
+    '<b>Horario: </b>'+chaza.horario+'</a></li><li style="max-width: 30em;"><a href="#">'+
     '<b>Descripcion: </b>'+chaza.descripcion+'</a></li><li><a href="#">'+
     '<b>Categoria: </b>'+chaza.categoria+'</a></li><li><a href="#">'+
     '<b>Administrador: </b>'+chaza.administrador+'</a></li><li><a style="color:white" class="main_btn" '+
@@ -778,6 +781,15 @@ function guardarProductos(){
   var nuevoProducto = $('#productoNuevo').val();
   var nuevoPrecio =  $('#precioNuevo').val();
   var id = chazas[globalIndex]._id;
+
+  if(nuevoPrecio == ''){
+    toastr.warning('Debes ingresar el precio del producto');
+  }
+
+  if(nuevoProducto == ''){
+      toastr.warning('Debes ingresar algún producto');
+  }
+
   var xhr;
   xhr = $.ajax({
       url: url+"/nuevoProducto",
@@ -796,8 +808,8 @@ function guardarProductos(){
 
           }
           else{
-            $('#modalProductos').modal('hide');
-            $('#error').modal('show');
+            //$('#modalProductos').modal('hide');
+            //$('#error').modal('show');
           }
           // handle your successful response here
       },
@@ -975,6 +987,9 @@ function crearNegocio(){
   var categoria = $('#cate').val();
 
   $('#errormsg').html();
+  if(lat == null || lng == null){
+    toastr.warning('Arrastra el marcador a la ubicación de tu negocio');
+  }
 
   var xhr;
   xhr = $.ajax({
